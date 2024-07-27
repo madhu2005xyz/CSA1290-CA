@@ -1,0 +1,35 @@
+section .data
+    num1 dw 16
+    num2 dw 12
+    result dw 0
+
+section .bss
+
+section .text
+    global _start
+
+_start:
+    ; Load num1 and num2
+    mov ax, [num1]
+    mov bx, [num2]
+
+find_gcd:
+    ; Check if bx is 0
+    cmp bx, 0
+    je done
+
+    ; Calculate remainder
+    xor dx, dx
+    div bx
+    mov ax, bx
+    mov bx, dx
+    jmp find_gcd
+
+done:
+    ; Store the result in the result variable
+    mov [result], ax
+
+    ; Exit the program
+    mov eax, 60        ; syscall: exit
+    xor edi, edi       ; status: 0
+    syscall
